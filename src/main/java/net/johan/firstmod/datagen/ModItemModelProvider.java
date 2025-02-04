@@ -1,4 +1,30 @@
 package net.johan.firstmod.datagen;
 
-public class ModItemModelProvider {
+import net.johan.firstmod.FirstMod;
+import net.johan.firstmod.items.ModItems;
+import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
+import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
+
+public class ModItemModelProvider extends ItemModelProvider {
+    public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
+        super(output, FirstMod.MOD_ID, existingFileHelper);
+    }
+
+    @Override
+    protected void registerModels() {
+        simpleItem(ModItems.GODBOW);
+        simpleItem(ModItems.GODWEAPON);
+        simpleItem(ModItems.DIAMANTIUS);
+    }
+
+    private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(FirstMod.MOD_ID, "item/" + item.getId().getPath()));
+    }
 }
